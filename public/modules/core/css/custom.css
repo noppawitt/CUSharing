@@ -1,0 +1,72 @@
+.navbar-default {
+      background: rgba(0, 0, 0, 0.25);
+}
+
+.navbar-default .navbar-brand {
+  text-align: center;
+  font-size: 2em;
+}
+.navbar-default {
+    border-color: rgba(50, 149, 207, 0.63);
+}
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:focus {
+  color: #cbf4ff;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: #001e71;
+}
+
+.btn-default,
+.btn-default:focus {
+  color: #fff;
+  background-color: #8dc63f;
+  border-color: #bbdd8c;
+}
+
+.btn-default:hover {
+  color: #fff;
+  background-color: #7fb239;
+  border-color: #bbdd8c;
+}
+
+.btn-default.active,
+.btn-default:active,
+.btn-default.active.focus,
+.btn-default.active:focus,
+.btn-default.active:hover,
+.btn-default:active.focus,
+.btn-default:active:focus,
+.btn-default:active:hover,
+.open>.dropdown-toggle.btn-default.focus,
+.open>.dropdown-toggle.btn-default:focus,
+.open>.dropdown-toggle.btn-default:hover {
+  color: #fff;
+  background-color: #628a2c;
+  border-color: #bbdd8c;
+}
+
+.modal-dialog {
+  width: 420px;
+}
+
+.modal-header {
+  background-color: #00bff3;
+  border-bottom: 1px solid #9e9e9e;
+}
+
+.modal-body {
+  background-color: #333;
+}
+  .navbar-nav {
+    width: 100%;
+    text-align: center;
+    > li {
+      float: none;
+      display: inline-block;
+    }
+  }
+  .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: rgba(231, 231, 231, 0.02);
+}

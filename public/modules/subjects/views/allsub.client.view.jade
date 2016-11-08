@@ -1,0 +1,51 @@
+
+script(src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js")
+.container.body(data-ng-controller='allsubController')
+  .left-panel
+    .form-box
+              .form-top
+                .form-top-left
+                  h3 Create Subject
+                  p This is for phase 1
+                .form-top-right
+                  i.fa.fa-pencil
+              .form-bottom
+                form.registration-form(role='form', action='', method='post')
+                  .form-group
+                    label.sr-only(for='form-first-name') Subject name
+                    input#form-first-name.form-first-name.form-control(type='text', name='form-first-name', placeholder='Subject name',data-ng-model="subjectName")
+                  .form-group
+                    label.sr-only(for='form-about-yourself') Not important
+                    textarea#form-about-yourself.form-about-yourself.form-control(name='form-about-yourself', placeholder=' Not important...')
+                  button.btn(type='submit',data-ng-click="createSubject(subjectName)") Create
+  
+
+  .main-panel
+    .new-tweet.first-item
+            form.form-horizontal
+                .form-group
+                  i.fa.fa-search
+                  .post-content.col-sm-10
+                    input.form-control(type='text', placeholder="Search Subject ",data-ng-model="search")      
+                .post(data-ng-repeat="subject in allsubject.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))  |filter:search ")
+                  a(ng-href='/#!/s/{{ subject.name.substring(0,7) }}' )
+                    .screen-name
+                      | {{ subject.name }}
+              span Numberperpage 
+              select(ng-model='viewby', ng-change='setItemsPerPage(viewby)')
+                option 3
+                option 5
+                option 10
+                option 20
+                option 30
+                option 40
+                option 50
+              center
+                div
+                  a.btn.btn-primary(data-ng-click='minus()') previous  
+                  span  Page  {{ currentPage }} of {{ numberOfPages }} 
+                  a.btn.btn-default(data-ng-click='plus()') next
+              
+
+
+

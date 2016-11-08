@@ -1,0 +1,25 @@
+.container.body(data-ng-controller='OneSubController')
+  .left-panel
+    .profile
+      .header
+        .name {{ subjectname }}
+      // /.header
+      .detail
+        .col
+          .text bar
+          .number 13
+        .col
+          .text Foo
+          .number 12
+      // /.detail
+    // /.border-box .profile
+  .main-panel
+    .post(data-ng-repeat="post in posts | orderBy: '-postTime'", data-ng-class="{'first-item' : $first}")
+         .name
+              | {{ post.name }}
+            .screen-name
+              | @{{ post.screenName }}
+            .post-content
+              | {{ post.postContent }}
+            .post-detail
+              | Subject : {{ post.postSubject }} &nbsp&nbsp Type : {{ post.postType }} &nbsp&nbsp Category : {{ post.postCat }} &nbsp&nbsp  Rating : {{ post.rating }}

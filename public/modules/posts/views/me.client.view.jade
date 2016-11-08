@@ -1,0 +1,24 @@
+div(data-ng-controller="MeController")
+	.container.body
+				.left-panel
+					.profile
+						.header
+							.name {{ profile.name }}
+							.screen-name @{{ profile.screenName }}
+						.detail.last-section
+							.col
+								.text Post
+								.number {{ profile.postCount }}
+							.col
+								.text Favourite
+								.number {{ profile.favourite }}
+				.main-panel
+					.post(data-ng-repeat="post in posts | orderBy:'-postTime'", data-ng-class="{'first-item' : $first}")
+						.name
+							| {{ post.name }}
+						.screen-name
+							| @{{ post.screenName }}
+						.post-content(ng-bind-html="post.postContent | linky")
+							| {{ post.postContent }}
+						.post-detail
+							| Subject : {{ post.postSubject }} &nbsp&nbsp Type : Review &nbsp&nbsp Category : Gen-ed &nbsp&nbsp  Rating : {{ post.rating }} 			
