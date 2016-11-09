@@ -27,7 +27,7 @@ var PostSchema = new Schema({
     },
     postTime: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     postType: {
         type: String,
@@ -46,15 +46,13 @@ var PostSchema = new Schema({
     },
     rating: {
         type: Number,
-        trim: true
+        default: 0
     } ,
-    favouriteUser: {
-        type: [{
-            type: String,
-        index:true
-        }],
-        
-    },
+    likeCount: {
+        type: Number,
+        default: 0
+        },
+
     comment : [CommentSchema]
 });
 

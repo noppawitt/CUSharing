@@ -89,6 +89,9 @@ var UserSchema = new Schema({
 		index : true
 
 	},
+	likedPost:{
+		type : [{String}]
+	},
 	/* For reset password */
 	resetPasswordToken: {
 		type: String

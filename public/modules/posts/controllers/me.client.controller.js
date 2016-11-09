@@ -9,13 +9,21 @@ angular.module('posts').controller('MeController',[
 			name : Authentication.user.displayName,
 			screenName: Authentication.user.username,
 			postCount : 0,
-			favourite : 0
+			favourite : Authentication.user.likedPost.length,
 		};
 
 		$http.get('/statuses/me_timeline')
 		.success(function(response){
 			$scope.posts = response;
 		})
+
+		/*
+		$http.get('/statuses/liked_timeline')
+		.success(function(response){
+			$scope.likedPosts = response
+		})
+		*/
+
 		.error(function(response){
 			$scope.error = response.message;
 		});

@@ -30,6 +30,14 @@ angular.module('posts').controller('FeedController',[
 			postCount : 0,
 			favourite : 0
 		};
+
+		$http.get('/statuses/is_liked_post')
+		.success(function(response){
+			$scope.isLikedPostRes = response;
+		})
+		.error(function(response){
+			$scope.error = response.message;
+		});
 		
 
 		$http.get('/statuses/feed_timeline')
@@ -51,7 +59,7 @@ angular.module('posts').controller('FeedController',[
 				postType:postType,
 				postCat:postCat,
 				rating : 0,
-				postTime: new Date().toISOString()})
+				postTime: new Date()})
 			.success(function(response){
 				$scope.postContent ='';
 				$scope.postSubject ='';
@@ -82,12 +90,10 @@ angular.module('posts').controller('FeedController',[
 
 		$scope.deletePost = function(_id){
 
-			console.log("GG");
 			$http.post('/statuses/delete_post',{
 				_id:_id
 			})
 			.success(function(response){
-				console.log("KK");
 				$scope.postContent ='';
 				$scope.postSubject ='';
 				$scope.postType ='';
@@ -108,14 +114,96 @@ angular.module('posts').controller('FeedController',[
 		};
 			})
 			.error(function(response){
-				console.log("KK222");
 				$scope.error2= response.message;
-				console.log("error : " + response.message);
 			});
 			
 		};
 
-				$scope.totalDisplayed = 10;
+
+		$scope.likePost = function(_id){
+
+			$http.post('/statuses/like_post',{
+				_id:_id
+			})
+			.success(function(response){
+				$scope.postContent ='';
+				$scope.postSubject ='';
+				$scope.postType ='';
+				$scope.postCat ='';
+
+					$http.get('/statuses/is_liked_post')
+					.success(function(response){
+						$scope.isLikedPostRes = response;
+					})
+					.error(function(response){
+						$scope.error = response.message;
+					});
+
+					$http.get('/statuses/feed_timeline')
+					.success(function(response){
+						$scope.timeline = response;
+					})
+					.error(function(response){
+						$scope.error = response.message;
+					});
+					$scope.profile={
+						name : Authentication.user.displayName,
+						screenName: Authentication.user.username,
+						postCount : 30,
+						favourite : 20
+					};
+			})
+			.error(function(response){
+				$scope.error2= response.message;
+			});
+			
+		};
+
+
+
+		$scope.unlikePost = function(_id){
+
+			$http.post('/statuses/unlike_post',{
+				_id:_id
+			})
+			.success(function(response){
+				$scope.postContent ='';
+				$scope.postSubject ='';
+				$scope.postType ='';
+				$scope.postCat ='';
+
+				$http.get('/statuses/is_liked_post')
+				.success(function(response){
+					$scope.isLikedPostRes = response;
+				})
+				.error(function(response){
+					$scope.error = response.message;
+				});
+
+				$http.get('/statuses/feed_timeline')
+				.success(function(response){
+					$scope.timeline = response;
+				})
+				.error(function(response){
+					$scope.error = response.message;
+				});	
+				$scope.profile={
+					name : Authentication.user.displayName,
+					screenName: Authentication.user.username,
+					postCount : 30,
+					favourite : 20
+				};
+			})
+			.error(function(response){
+				$scope.error2= response.message;
+			});
+			
+		};
+
+
+
+
+			$scope.totalDisplayed = 10;
 			$scope.loadMore = function () {
  			$scope.totalDisplayed += 5;  
  			

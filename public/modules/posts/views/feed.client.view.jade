@@ -16,7 +16,7 @@
           span.visuallyhidden Add
     main.mdl-layout__content
       #overview.mdl-layout__tab-panel.is-active
-        section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp(data-ng-repeat="post in timeline | orderBy: '-postTime' | limitTo: totalDisplayed ")
+        section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp(data-ng-repeat="post in timeline | orderBy: '-postTime' | limitTo: totalDisplayed")
           //-postbox
           .mdl-card.mdl-cell.mdl-cell--12-col
             .mdl-card__supporting-text.mdl-grid.mdl-grid--no-spacing
@@ -29,12 +29,15 @@
                 
             .mdl-card__actions
               a.mdl-button(ng-href='/#!/u/{{ post.screenName }}') Name : {{ post.name }} &nbsp&nbsp&nbsp&nbsp Type : {{ post.postType }} &nbsp&nbsp Category : {{ post.postCat }} &nbsp&nbsp  Rating : {{ post.rating }}
+              a.btn.pull-right(ng-if="isLikedPostRes.indexOf(post._id)<0",ng-click="likePost(post._id)") Like
+              a.btn.pull-right(ng-if="isLikedPostRes.indexOf(post._id)>=0",ng-click="unlikePost(post._id)") Unlike
+              p.pull-right {{post.likeCount}}
           
           button#btn2.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon.btn.btn-primary.dropdown-toggle(type='button',data-toggle='dropdown')
             span.caret
           ul.dropdown-menu.dropdown-menu-right
             li
-              a(href="#",ng-click="deletePost(post._id)") delete
+              a(ng-click="deletePost(post._id)") delete
         
          section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp
           .mdl-card.mdl-cell.mdl-cell--12-col
