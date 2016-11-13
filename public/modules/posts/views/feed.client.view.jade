@@ -1,21 +1,35 @@
 .mdl-demo.mdl-color--grey-100.mdl-color-text--grey-700.mdl-base(data-ng-controller='FeedController')
   .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-    header.mdl-layout__header.mdl-layout__header--scroll.mdl-color--primary
-      .mdl-layout--large-screen-only.mdl-layout__header-row
-      .mdl-layout--large-screen-only.mdl-layout__header-row
-        h3 Name & Title
-      .mdl-layout--large-screen-only.mdl-layout__header-row
-      .mdl-layout__tab-bar.mdl-js-ripple-effect.mdl-color--primary-dark
-        a.mdl-layout__tab.is-active(href='#overview') Overview
-        a.mdl-layout__tab(href='#features') Features
-        a.mdl-layout__tab(href='#features') Details
-        a.mdl-layout__tab(href='#features') Technology
-        a.mdl-layout__tab(href='#features') FAQ
-        button#add.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored.mdl-shadow--4dp.mdl-color--accent
-          i.material-icons(role='presentation') add
-          span.visuallyhidden Add
     main.mdl-layout__content
       #overview.mdl-layout__tab-panel.is-active
+        section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp
+          .mdl-card.mdl-cell.mdl-cell--12-col
+            .mdl-card__supporting-text.mdl-grid.mdl-grid--no-spacing
+              h4.mdl-cell.mdl-cell--12-col Write Post
+              .section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet
+                .form.form-horizontal                       
+                  .form-group
+                    .post-content.col-sm-10
+                      input.form-control(type='text', placeholder="What's happening",data-ng-model="postContent")
+                    .post-content.col-sm-10
+                      input#states.form-control(name='states', type='text', placeholder="Fill the Subject's name" , ng-model='postSubject', typeahead='subject as subject.name for subject in allsubject | filter:{name : $viewValue} | limitTo:8')
+                    .post-content.col-sm-10
+                        .left-panel
+                            span Type
+                            select.form-control(ng-model="postType",ng-init="postType = 'Review'")
+                              option(value="Review") Review
+                              option(value="Document") Document 
+                              option(value="Talking") Talking
+                              option(value="Picture") Picture
+                              option(value="Other") Other 
+                        .left-panel
+                            span Security {{ error }} 
+                            select.form-control(ng-model="postCat",ng-init="postCat = 'Gen-ed'")
+                              option(value="Gen-ed") Open
+                              option(value="Faculty") Faculty       
+                    .col-sm-2
+                      input.btn.btn-default(type='button', value='Post',data-ng-click="postPost(postContent,profile.name,profile.screenName,postSubject.name,postType,postCat)")
+               
         section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp(data-ng-repeat="post in timeline | orderBy: '-postTime' | limitTo: totalDisplayed")
           //-postbox
           .mdl-card.mdl-cell.mdl-cell--12-col
@@ -23,19 +37,18 @@
               h4.mdl-cell.mdl-cell--12-col {{ post.postSubject }}
               .section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone
                 .section__circle-container__circle.mdl-color--primary
-              .section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone
-                h5 {{ post.postSubject }}
+              .section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone(ng-bind-html="post.postContent | linky")
                 |                                 {{ post.postContent }} 
                 
             .mdl-card__actions
               a.mdl-button(ng-href='/#!/u/{{ post.screenName }}') Name : {{ post.name }} &nbsp&nbsp&nbsp&nbsp Type : {{ post.postType }} &nbsp&nbsp Category : {{ post.postCat }} &nbsp&nbsp  Rating : {{ post.rating }}
-              a.btn.pull-right(ng-if="isLikedPostRes.indexOf(post._id)<0",ng-click="likePost(post._id)") Like
-              a.btn.pull-right(ng-if="isLikedPostRes.indexOf(post._id)>=0",ng-click="unlikePost(post._id)") Unlike
-              p.pull-right {{post.likeCount}}
+              a.btn.pull-right(ng-click="likePost(post._id)") {{likeTxt[post._id]}}
+              //-a.btn.pull-right(ng-if="bool||isLikedPostRes.indexOf(post._id)>=0",ng-click="unlikePost(post._id)") Unlike
+              p.pull-right {{ likeCount[post._id] }}
           
           button#btn2.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon.btn.btn-primary.dropdown-toggle(type='button',data-toggle='dropdown')
             span.caret
-          ul.dropdown-menu.dropdown-menu-right
+          ul.dropdown-menu.dropdown-menu-right(style="right: 8px; top: 40px; width: 124px; height: 80px;")
             li
               a(ng-click="deletePost(post._id)") delete
         
@@ -45,13 +58,6 @@
               h4 คุยกัน
               |                   คณะนี้เป้นเพียงตัว prototype ถ้ามีอะไรเพิ่มเติมบอกได้เลยนะครับ
             .mdl-card__actions
-              a.mdl-button(href='#') Read our features
-          button#btn3.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
-            i.material-icons more_vert
-          ul.mdl-menu.mdl-js-menu.mdl-menu--bottom-right(for='btn3')
-            li.mdl-menu__item Lorem
-            li.mdl-menu__item(disabled='') Ipsum
-            li.mdl-menu__item Dolor    
           a#view-source.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-color--accent.mdl-color-text--accent-contrast.button(type='button',ng-click="loadMore()") Load More
         section.section--footer.mdl-color--white.mdl-grid
           .section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone

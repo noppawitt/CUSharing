@@ -1,5 +1,5 @@
 doctype html
-html(lang='en')
+html(class='mdl-js',lang='en')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -38,12 +38,25 @@ html(lang='en')
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
     link(rel='stylesheet', href='images2/material.min.css')
     link(rel='stylesheet', href='images2/styles.css')
+    link(href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css', media='all', rel='stylesheet', type='text/css')
+
 
     
     style.
       #view-source {
       left: 43%;
       }
+      [scroll] {
+        position:fixed;
+        top:0;
+      }
+      i {
+      font-size:25px;
+      }
+
+      .md-button {
+        min-width : 24px;
+      } 
       
     header(data-ng-include="'/modules/core/views/header.client.view.jade'")
 

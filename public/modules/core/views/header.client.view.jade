@@ -1,25 +1,18 @@
-nav.navbar.navbar-default.navbar-fixed-top(data-ng-controller='HeaderController')
-  .container
-    // Brand and toggle get grouped for better mobile display
-    .navbar-header
-      button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(data-ui-sref='feed') CU Sharing
-      form.navbar-form.navbar-right(role='signin', data-ng-if='!authentication.user')
-        a.btn.btn-default(data-ui-sref='signin') Sign in
-        a.btn.btn-primary(data-ui-sref='signup') Sign up
-      form.navbar-form.navbar-left(role='signout', data-ng-if='authentication.user')
-          .left-panel
-            a.button.btn.btn-primary.btn-circle.btn-lg(type='button',data-ui-sref='all')
-              i.glyphicon.glyphicon-list  
-            a.button.btn.btn-primary.btn-circle.btn-lg(type='button',data-ui-sref='feed')
-              i.glyphicon.glyphicon-align-center 
-            a.button.btn.btn-primary.btn-circle.btn-lg(type='button',data-ui-sref='me')
-              i.glyphicon.glyphicon-user    
-       form.navbar-form.navbar-right(role='signout', data-ng-if='authentication.user')
-            a.btn.btn-primary(data-ui-sref='me') Profile
-            a.btn.btn-danger(href='/auth/signout') Sign out
-   
+div(data-ng-controller='HeaderController', layout='column', layout-align='top center')
+  md-toolbar(scroll="")
+    .md-toolbar-tools
+      h2(md-header-title='', flex='') CUSharing
+      md-button.md-tools(aria-label='Subject',data-ng-if='authentication.user',data-ui-sref='all')
+       i.ion-ios-book-outline
+      md-button.md-tools(aria-label='New feed',data-ng-if='authentication.user',data-ui-sref='feed')
+       i.ion-person-stalker
+      md-button.md-tools(aria-label='Profile',data-ng-if='authentication.user',data-ui-sref='me')
+       i.ion-person
+      md-button.md-tools(aria-label='village',data-ng-if='authentication.user')
+       i.ion-home
+      md-button.md-tools(aria-label='signout',data-ng-if='authentication.user',href='/auth/signout')
+       i.ion-log-out
+      md-button.md-tools(aria-label='signin',data-ng-if='!authentication.user',data-ui-sref='signin')
+       i.ion-log-in
+      md-button.md-tools(aria-label='signup',data-ng-if='!authentication.user',data-ui-sref='signup')
+       i.ion-ios-compose 
