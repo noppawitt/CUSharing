@@ -24,44 +24,12 @@ exports.update = function(req, res, next) {
         });
     }
 };
-/*
-exports.me_timeline = function(req, res, next) {
-    if (req.user) {
-        var username = req.user.username;
-
-        Post.find({
-            screenName: username
-        }, function(err, posts) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                res.json(posts);
-            }
-        });
-    } else {
-        res.status(400).send({
-            message: 'User is not signed in'
-        });
-    }
-};
-*/
 
 exports.me_timeline = function(req,res,next){
     if(req.user){
-        var likedPostId = [];
-        for(var i = 0;i<req.user.likedPost.length;i++){
-            var temp = "";
-            var temp2 = req.user.likedPost[i].toObject();
-            for(var j = 0;j<24;j++){
-                temp = temp + temp2[j];
-            }
-            likedPostId.push(temp);
-        }
         Post.find({
             //_id:{$in:likedPostId}
-            $or:[{screenName:req.user.username},{_id:{$in:likedPostId}}]
+            $or:[{screenName:req.user.username},{_id:{$in:req.user.savedPost}}]
         },function(err,posts){
             if(err){
                 return res.status(400).send({
@@ -271,6 +239,53 @@ exports.is_liked_post = function(req,res,next){
             likedPostId.push(temp);
         }
         res.json(likedPostId);
+    }
+    else{
+        res.status(400).send({
+            message: 'User is not signed in'
+        });
+    }
+};
+
+exports.save_post = function(req,res,next){
+    if(req.user){
+        User.findOneAndUpdate({
+            username:req.user.username
+        },{
+            $addToSet:{savedPost:req.body._id}
+        },function(err,posts){
+            if(err){
+                return res.status(400).send({
+                    message:errorHandler.getErrorMessage(err)
+                });
+            } else{
+                res.end();
+            }
+        });
+    }
+    else{
+        res.status(400).send({
+            message: 'User is not signed in'
+        });
+    }
+};
+
+
+exports.remove_post = function(req,res,next){
+    if(req.user){
+        User.findOneAndUpdate({
+            username:req.user.username
+        },{
+            $pull:{savedPost:req.body._id}
+        },function(err,posts){
+            if(err){
+                return res.status(400).send({
+                    message:errorHandler.getErrorMessage(err)
+                });
+            } else{
+                res.end();
+            }
+        });
     }
     else{
         res.status(400).send({

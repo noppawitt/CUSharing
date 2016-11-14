@@ -16,17 +16,33 @@ angular.module('posts').controller('MeController',[
 		.success(function(response){
 			$scope.posts = response;
 		})
-
-		/*
-		$http.get('/statuses/liked_timeline')
-		.success(function(response){
-			$scope.likedPosts = response
-		})
-		*/
-
 		.error(function(response){
 			$scope.error = response.message;
 		});
+
+		$scope.removePost = function(_id){
+			$http.post('/statuses/remove_post',{
+				_id:_id
+			})
+			.success(function(response){
+				$http.get('/statuses/me_timeline')
+				.success(function(response){
+					$scope.posts = response;
+				})
+				.error(function(response){
+					$scope.error = response.message;
+				});
+			})
+			.error(function(response){
+				$scope.error = response.message;
+			});
+		};
+
+		$scope.totalDisplayed = 10;
+			$scope.loadMore = function () {
+ 				$scope.totalDisplayed += 5;  
+ 			
+			};
 		
 	}
 

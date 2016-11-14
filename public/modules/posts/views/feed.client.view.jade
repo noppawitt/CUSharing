@@ -10,7 +10,7 @@
                 .form.form-horizontal                       
                   .form-group
                     .post-content.col-sm-10
-                      input.form-control(type='text', placeholder="What's happening",data-ng-model="postContent")
+                      textArea.form-control.msd-elastic(type='text', placeholder="What's happening",data-ng-model="postContent")
                     .post-content.col-sm-10
                       input#states.form-control(name='states', type='text', placeholder="Fill the Subject's name" , ng-model='postSubject', typeahead='subject as subject.name for subject in allsubject | filter:{name : $viewValue} | limitTo:8')
                     .post-content.col-sm-10
@@ -24,11 +24,11 @@
                               option(value="Other") Other 
                         .left-panel
                             span Security {{ error }} 
-                            select.form-control(ng-model="postCat",ng-init="postCat = 'Gen-ed'")
-                              option(value="Gen-ed") Open
+                            select.form-control(ng-model="security",ng-init="security = 'Open'")
+                              option(value="Open") Open
                               option(value="Faculty") Faculty       
                     .col-sm-2
-                      input.btn.btn-default(type='button', value='Post',data-ng-click="postPost(postContent,profile.name,profile.screenName,postSubject.name,postType,postCat)")
+                      input.btn.btn-default(type='button', value='Post',data-ng-click="postPost(postContent,profile.name,profile.screenName,postSubject.name,postType,security)")
                
         section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp(data-ng-repeat="post in timeline | orderBy: '-postTime' | limitTo: totalDisplayed")
           //-postbox
@@ -42,15 +42,17 @@
                 
             .mdl-card__actions
               a.mdl-button(ng-href='/#!/u/{{ post.screenName }}') Name : {{ post.name }} &nbsp&nbsp&nbsp&nbsp Type : {{ post.postType }} &nbsp&nbsp Category : {{ post.postCat }} &nbsp&nbsp  Rating : {{ post.rating }}
-              a.btn.pull-right(ng-click="likePost(post._id)") {{likeTxt[post._id]}}
+              a.btn.pull-right(ng-click="likePost(post._id)") {{ likeTxt[post._id] }}
               //-a.btn.pull-right(ng-if="bool||isLikedPostRes.indexOf(post._id)>=0",ng-click="unlikePost(post._id)") Unlike
               p.pull-right {{ likeCount[post._id] }}
           
           button#btn2.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon.btn.btn-primary.dropdown-toggle(type='button',data-toggle='dropdown')
             span.caret
-          ul.dropdown-menu.dropdown-menu-right(style="right: 8px; top: 40px; width: 124px; height: 80px;")
+          ul.dropdown-menu.dropdown-menu-right(style="right: 8px; top: 40px; width: 124px; height: 80px; cursor:pointer;")
             li
-              a(ng-click="deletePost(post._id)") delete
+              a(ng-show="profile.screenName==post.screenName",ng-click="deletePost(post._id)") delete
+            li
+              a(ng-click="savePost(post._id)") save this post
         
          section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp
           .mdl-card.mdl-cell.mdl-cell--12-col

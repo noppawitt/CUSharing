@@ -92,6 +92,9 @@ var UserSchema = new Schema({
 	likedPost:{
 		type : [{String}]
 	},
+	savedPost:{
+		type : [String]
+	},
 	/* For reset password */
 	resetPasswordToken: {
 		type: String
@@ -104,7 +107,16 @@ var UserSchema = new Schema({
 		trim : true,
 		default : 'user'
 
+	},
+	major : {
+		type : String,
+		trim : true,
+		default: 'unknown'
+	},
+	filter : {
+		type : [{Number}]
 	}
+		
 });
 
 /**

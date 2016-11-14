@@ -7,7 +7,11 @@ var SubjectSchema = new Schema({
     name: {
         type: String,
         trim: true
-    } 
+    },
+    category:{
+    	type: String,
+    	trim: true
+    }
 });
 
 mongoose.model('Subject', SubjectSchema);

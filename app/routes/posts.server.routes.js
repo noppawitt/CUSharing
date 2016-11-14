@@ -13,6 +13,8 @@ module.exports = function(app) {
     app.route('/statuses/like_post').post(posts.like_post); 
     app.route('/statuses/unlike_post').post(posts.unlike_post); 
     app.route('/statuses/is_liked_post').get(posts.is_liked_post);
+    app.route('/statuses/save_post').post(posts.save_post);
+    app.route('/statuses/remove_post').post(posts.remove_post);
 
     
 };

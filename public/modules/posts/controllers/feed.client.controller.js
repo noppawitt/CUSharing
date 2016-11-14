@@ -66,7 +66,7 @@ angular.module('posts').controller('FeedController',[
 		});
 
 
-		$scope.postPost = function(postContent, name ,screenName,postSubject,postType,postCat){
+		$scope.postPost = function(postContent, name ,screenName,postSubject,postType,security){
 			
 			$http.post('/statuses/update',{
 				name:name,
@@ -74,7 +74,7 @@ angular.module('posts').controller('FeedController',[
 				postContent:postContent,
 				postSubject:postSubject,
 				postType:postType,
-				postCat:postCat,
+				status:security,
 				rating : 0,
 				postTime: new Date()})
 			.success(function(response){
@@ -106,7 +106,6 @@ angular.module('posts').controller('FeedController',[
 
 
 		$scope.deletePost = function(_id){
-			console.log('GG');
 
 			$http.post('/statuses/delete_post',{
 				_id:_id
@@ -164,14 +163,23 @@ angular.module('posts').controller('FeedController',[
 			
 		};
 
+		$scope.savePost = function(_id){
+			$http.post('/statuses/save_post',{
+				_id:_id
+			})
+			.error(function(response){
+				$scope.error = response.message;
+			});
+		};
+
 
 
 
 			$scope.totalDisplayed = 10;
 			$scope.loadMore = function () {
- 			$scope.totalDisplayed += 5;  
+ 				$scope.totalDisplayed += 5;  
  			
-				};
+			};
 		
 		 $(window).scroll(function() {   
    		if($(window).scrollTop() + $(window).height() > $(document).height() - 300) {

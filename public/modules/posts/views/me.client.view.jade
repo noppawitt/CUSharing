@@ -1,24 +1,49 @@
-div(data-ng-controller="MeController")
-	.container.body
-				.left-panel
-					.profile
-						.header
-							.name {{ profile.name }}
-							.screen-name @{{ profile.screenName }}
-						.detail.last-section
-							.col
-								.text Post
-								.number {{ profile.postCount }}
-							.col
-								.text Favourite
-								.number {{ profile.favourite }}
-				.main-panel
-					.post(data-ng-repeat="post in posts | orderBy:'-postTime'", data-ng-class="{'first-item' : $first}")
-						.name
-							| {{ post.name }}
-						.screen-name
-							| @{{ post.screenName }}
-						.post-content(ng-bind-html="post.postContent | linky")
-							| {{ post.postContent }}
-						.post-detail
-							| Subject : {{ post.postSubject }} &nbsp&nbsp Type : Review &nbsp&nbsp Category : Gen-ed &nbsp&nbsp  Rating : {{ post.rating }}
+.mdl-demo.mdl-color--grey-100.mdl-color-text--grey-700.mdl-base(data-ng-controller='MeController')
+  .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+    main.mdl-layout__content
+      #overview.mdl-layout__tab-panel.is-active
+
+        section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp
+          .mdl-card.mdl-cell.mdl-cell--12-col
+            .mdl-card__supporting-text
+              h4 Profile
+              |                   คณะนี้เป้นเพียงตัว prototype ถ้ามีอะไรเพิ่มเติมบอกได้เลยนะครับ
+        section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp(data-ng-repeat="post in posts | orderBy: '-postTime' | limitTo: totalDisplayed")
+          //-postbox
+          .mdl-card.mdl-cell.mdl-cell--12-col
+            .mdl-card__supporting-text.mdl-grid.mdl-grid--no-spacing
+              h4.mdl-cell.mdl-cell--12-col {{ post.postSubject }}
+              .section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone
+                .section__circle-container__circle.mdl-color--primary
+              .section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone(ng-bind-html="post.postContent | linky")
+                |                                 {{ post.postContent }} 
+                
+            .mdl-card__actions
+              a.mdl-button(ng-href='/#!/u/{{ post.screenName }}') Name : {{ post.name }} &nbsp&nbsp&nbsp&nbsp Type : {{ post.postType }} &nbsp&nbsp Category : {{ post.postCat }} &nbsp&nbsp  Rating : {{ post.rating }}
+              a.btn.pull-right(ng-click="likePost(post._id)") {{ likeTxt[post._id] }}
+              p.pull-right {{ likeCount[post._id] }}
+          
+          button#btn2.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon.btn.btn-primary.dropdown-toggle(type='button',data-toggle='dropdown')
+            span.caret
+          ul.dropdown-menu.dropdown-menu-right(style="right: 8px; top: 40px; width: 124px; height: 80px; cursor:pointer;")
+            li
+              a(ng-show="profile.screenName!=post.screenName",ng-click="removePost(post._id)") remove this post
+        
+         section.section--center.mdl-grid.mdl-grid--no-spacing.mdl-shadow--2dp
+          .mdl-card.mdl-cell.mdl-cell--12-col
+            .mdl-card__supporting-text
+              h4 คุยกัน
+              |                   คณะนี้เป้นเพียงตัว prototype ถ้ามีอะไรเพิ่มเติมบอกได้เลยนะครับ
+            .mdl-card__actions
+          a#view-source.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-color--accent.mdl-color-text--accent-contrast.button(type='button',ng-click="loadMore()") Load More
+        section.section--footer.mdl-color--white.mdl-grid
+          .section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone
+            .section__circle-container__circle.mdl-color--accent.section__circle--big
+          .section__text.mdl-cell.mdl-cell--4-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone
+            h5 Supported by GEN-ED เด็ดๆฉบับวิศวะ
+          .section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone
+            .section__circle-container__circle.mdl-color--accent.section__circle--big
+          .section__text.mdl-cell.mdl-cell--4-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone
+            h5 Created by Clique
+              
+    
